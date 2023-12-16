@@ -1,5 +1,9 @@
-# WinterProject_2023
+# Optimised Lost and Found Website
 This repository contains the implementation of  a Lost and Found webpage and more.
+## Contributors
+-- Husain Malwat  
+-- Mithil Pechimuthu  
+-- Shreesh Agarwal  
 
 ## Structure of the Website
 ![Website_flow](https://github.com/PechimuthuMithil/WinterProject_2023/assets/119656326/fafd3ebf-a111-463a-8030-93e8da596a92)
