@@ -11,6 +11,6 @@ This repository contains the implementation of  a Lost and Found webpage and mor
 ## Search algorithm  
 Current methods used:
 1) Searching the database of found items using `Jaccard Similarity`. The source code for this can be found in JaccardRanker.py. This ranker is also optimized by using multiple threads of execution to search through the database.
-2) Searching a vector database, by encoding the user's query using sentence transformers or using the [OpenAI API](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings). `Cosine Similarity` is used in this case. The surce code can be found in the ProposedRanker.pynb.
+2) Searching a vector database, by encoding the user's query using sentence transformers or using the [OpenAI API](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings). `Cosine Similarity` is used in this case. The surce code can be found in the ProposedRanker.ipynb.
 
    
