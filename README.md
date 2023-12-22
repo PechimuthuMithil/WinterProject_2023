@@ -47,8 +47,9 @@ We can give a domain name to the website as follows.
 1) Go to the hosts file. It can be typically found here `C:\Windows\System32\drivers\etc\hosts`.
 2) Add the following translation
   `127.0.0.1   lostnfound.iitgn.ac.in`
-   After that your hosts file should look somewhat like this.
+   After that your hosts file should look somewhat like this.  
    ![image](https://github.com/PechimuthuMithil/WinterProject_2023/assets/119656326/73e2cae0-ad5f-4484-8731-ecf503e65171)  
+
 Now lostnfound.iitgn.ac.in is mapped to 127.0.0.1, i.e. the local host and now we can access it like an actual website.
 So if we type `http://lostnfound.iitgn.ac.in:5000/` on our browser, we will be able to access the webpage!  
 We can also crete our own personal local netowrk, and set up the server in one computer and access the webpae from another computer. However this is left as an exercise to the reader.
