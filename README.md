@@ -14,7 +14,7 @@ Current methods used:
 2) Searching a vector database, by encoding the user's query using sentence transformers or using the [OpenAI API](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings). `Cosine Similarity` is used in this case. The surce code can be found in the ProposedRanker.ipynb.
 
 ## Note to the reader
-This is a simple website, with a simple, under development server. The backend is working, but might have some loop holes. The websote layout is exactly as shown in the figure in the section `Structure of the Website`. There aren't even any go back or home buttons. But I believe that these are small and simple additions.  
+This is a simple website, with a simple, under development server. The backend is working, but might have some loop holes. The websote layout is exactly as shown in the figure in the section `Structure of the Website`. There aren't even any go back or home buttons. But I believe that these are small and simple additions. The `ProposedRanker.ipynb` contains an transformerbased search approach that is also being worked upon.  
 
 ## Runing the Server
 ### Requirements  
@@ -59,3 +59,4 @@ We can also crete our own personal local netowrk, and set up the server in one c
 1) Add encryption of data and use TLS protocols over TCP. This will be done to make the server suppirt HTTPS requests.
 2) Clean the code and make a Node.js equivalent.
 3) Provide a better and neater front end.
+4) Use vector databases.  
