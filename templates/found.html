@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Found Item</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+        input[type="text"], input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Report a Found Item</h2>
+    <form method="POST" action="/submit_found" enctype="multipart/form-data">
+        <textarea name="description" placeholder="Description of the found item (up to 1000 words)"></textarea><br>
+        <input type="file" name="image" accept="image/*"><br>
+        <input type="text" name="username" placeholder="Your username"><br>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</body>
+</html>

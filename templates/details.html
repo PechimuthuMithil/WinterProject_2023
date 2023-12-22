@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .details {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .details h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .details p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .claim-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .claim-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="details">
+        <h2>Item Details</h2>
+        <p><strong>Item ID:</strong> {{ item_details[0] }}</p>
+        <p><strong>Description:</strong> {{ item_details[1] }}</p>
+        <!-- Display the image or placeholder message -->
+        {% if item_details[3] %}
+            <img src="data:image/png;base64,{{ item_details.iimage|b64encode }}" alt="Item Image" style="max-width: 300px; margin-bottom: 10px;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <!-- Display other item details here -->
+        <form action="/claim/{{ item_details[0] }}" method="POST">
+            <button type="submit" class="claim-btn">Claim</button>
+        </form>
+    </div>
+</body>
+</html>

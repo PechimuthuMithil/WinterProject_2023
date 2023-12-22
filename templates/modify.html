@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify Items Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            margin-bottom: 10px;
+        }
+        .update-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .update-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Modify Items Table</h2>
+    <form method="POST" action="/modify_item">
+        <input type="text" name="item_id" placeholder="Item ID"><br>
+        <input type="text" name="collected_by" placeholder="Collected By Username"><br>
+        <button type="submit" class="update-btn">Update Item</button>
+    </form>
+</body>
+</html>

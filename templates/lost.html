@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lost Item Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+        .search-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Description of Lost Item</h2>
+    <form method="POST" action="/lost"> <!-- Updated action to point to '/lost' -->
+        <textarea name="description" placeholder="Enter description (up to 1000 words)"></textarea><br>
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+
+    <!-- Display search results -->
+    {% if results %}
+        <h3>Search Results</h3>
+        {% for result in results %}
+            <div class="result">
+                <p><strong>Item ID: {{ result['ItemID'] }}</strong></p>
+                <p>Description: {{ result['Description'] }}</p>
+                <p>Score: {{ result['Score'] }}</p>
+                <a href="/details/{{ result['ItemID'] }}">More details</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+
+</body>
+</html>
