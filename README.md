@@ -24,15 +24,19 @@ Please enusre that the following requirements are satisfied by the host machine.
 3) Install flask.
    ```
    pip install flask
-   ```shell  
+   ```
 4) Install the nltk library.
    ```
    pip install nltk
-   ```shell
+   ```
 
 ### Starting the server.
-First clone the repository.
-``` git clone 
+First clone the repository.  
+Open youe CLI and type
+```
+git clone https://github.com/PechimuthuMithil/WinterProject_2023.git
+```
+
 Please run the `Run.py` script to set up the required relations and download necessary dependencies.  
 Please ensure that the database details are properly configures in the `Run.py` script according to the host machine.  
 The server will start and one can follow the instriction on the console to view the website.  
