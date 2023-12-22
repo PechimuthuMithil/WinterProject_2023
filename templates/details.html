@@ -39,11 +39,13 @@
         <p><strong>Item ID:</strong> {{ item_details[0] }}</p>
         <p><strong>Description:</strong> {{ item_details[1] }}</p>
         <!-- Display the image or placeholder message -->
-        {% if item_details[3] %}
-            <img src="data:image/png;base64,{{ item_details.iimage|b64encode }}" alt="Item Image" style="max-width: 300px; margin-bottom: 10px;">
+        <p><strong>Item Image:
+        {% if item_details[2] %}
+            <img src="data:image/png;base64,{{ item_details[2] }}" alt="Item Image" style="max-width: 300px; margin-bottom: 10px;">
         {% else %}
             <p>No image available</p>
         {% endif %}
+        </strong></p><br><br>
         <!-- Display other item details here -->
         <form action="/claim/{{ item_details[0] }}" method="POST">
             <button type="submit" class="claim-btn">Claim</button>

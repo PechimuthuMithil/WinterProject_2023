@@ -4,6 +4,7 @@ import subprocess
 import psycopg2
 import sys
 import ast
+import base64
 
 app = Flask(__name__)
 
@@ -108,7 +109,9 @@ def item_details(item_id):
     cursor.close()
     conn.close()
     print(item_details)
-    return render_template('details.html', item_details=item_details)
+    if item_details[2]:
+        encoded_image = base64.b64encode(item_details[2]).decode('utf-8')
+    return render_template('details.html', item_details=item_details[:2]+(encoded_image,))
 
 @app.route('/claim/<int:item_id>', methods=['POST'])
 def claim_item(item_id):
