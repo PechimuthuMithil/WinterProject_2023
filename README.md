@@ -2,7 +2,8 @@
 This repository contains the implementation of  a Lost and Found webpage and more.
 
 ## Tools and Skills Used
-[![My Skills](https://skillicons.dev/icons?i=js,html,css,wasm)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=flask,html,css,py,vscode,git,postgres)](https://skillicons.dev)  
+
 ## Contributors
 -- Husain Malwat  
 -- Mithil Pechimuthu  
