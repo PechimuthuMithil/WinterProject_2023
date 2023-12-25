@@ -7,7 +7,7 @@ import ast
 import base64
 
 app = Flask(__name__)
-
+gloabaldesc = ""
 def Conn2db():
     conn = psycopg2.connect(
         user="postgres",
@@ -97,8 +97,8 @@ def lost():
         results, errors = process.communicate(input=description)
         results = ast.literal_eval(results)
         print(results)
-        return render_template('lost.html', results=results)  # Assuming results are separated by lines
-    return render_template('lost.html', results=None)
+        return render_template('lost.html', results=results, desc=description)  # Assuming results are separated by lines
+    return render_template('lost.html', results=None, desc = None)
 
 @app.route('/details/<int:item_id>')
 def item_details(item_id):
@@ -150,6 +150,11 @@ def submit_found():
 
         conn.commit()
         conn.close()
+        python_exe = sys.executable
+        cmd = [str(python_exe), "Notifier.py"]
+        process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        results, errors = process.communicate(input=description)
+        print(results, errors)
         return "Item found successfully reported!"
     except Exception as e:
         conn.rollback()
@@ -178,6 +183,24 @@ def modify_item():
         conn.commit()
         conn.close()
         return "Item updated successfully!"
+    except Exception as e:
+        conn.rollback()
+        return f"Failed to update item. Error: {str(e)}", 500
+
+# Store details of users to be notified.
+@app.route('/notify/<string:desc>', methods=['POST'])
+def notify(desc):
+    try:
+        conn = Conn2db()
+        cursor = conn.cursor()
+
+        email_id = request.form['email']
+
+        cursor.execute("INSERT INTO lost (ides, uemail) VALUES (%s, %s);",
+                      (desc, email_id))
+        conn.commit()
+        conn.close()
+        return "Your item is succesfully added!\nPlease frequently check the submitted email for notifications."
     except Exception as e:
         conn.rollback()
         return f"Failed to update item. Error: {str(e)}", 500

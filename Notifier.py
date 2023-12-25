@@ -1,16 +1,17 @@
-''' 
-This is a trial script wirtten by Mithil Pechimuthu
-It tries to rank the entries in a database based on a query. 
-This script uses the Jaccard similarity score to find similar items.
-This is also multi threaded. 
 '''
-#### FINAL SENTENCE-BERT BASET RANKER ####
+This script will handle jod of finding the right users to notify once an item is found.
+Written by Mithil Pechimuthu.
+'''
+
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from concurrent.futures import ThreadPoolExecutor
 import psycopg2
+import smtplib, ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Function to fetch ItemID and Description from found_items table
 def fetch_items_from_database():
@@ -26,11 +27,11 @@ def fetch_items_from_database():
 
         cursor = conn.cursor()
         query = '''
-            SELECT iid,ides FROM items WHERE collected IS NULL;
+            SELECT ides, uemail FROM lost;
         '''
         cursor.execute(query)
         
-        items = [{'ItemID': row[0], 'Description': row[1]} for row in cursor.fetchall()]
+        items = [{'Description': row[0], 'Email': row[1]} for row in cursor.fetchall()]
 
         return items
 
@@ -43,6 +44,33 @@ def fetch_items_from_database():
             cursor.close()
             conn.close()
 
+def findID(desc):
+    try:
+        # Establish a connection to the PostgreSQL database
+        conn = psycopg2.connect(
+            user="postgres",
+            password="1234",
+            host="localhost",
+            port="5432",
+            database="winterproject"
+        )
+
+        cursor = conn.cursor()
+        query = '''
+            SELECT iid FROM itmes WHERE ides = %s;
+        '''
+        cursor.execute(query,(desc,))
+        id = int(cursor.fetchall())
+        return id
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error fetching items from database:", error)
+        return []
+
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()   
 # Usage example
 
 # nltk.download('punkt')
@@ -60,7 +88,7 @@ def similarity_search_jaccard(database):
     filtered_words = [lemmatizer.lemmatize(word.lower()) for word in words if word.lower() not in stop_words]
     similarity_score = jaccard_similarity(set(filtered_query.split()), set(filtered_words))
     if (similarity_score >= minThresh):
-      result.append({'ItemID':item['ItemID'], 'Description':item['Description'], 'Score':float(similarity_score)})
+      result.append({'Email':item['Email'], 'Description':item['Description'], 'Score':float(similarity_score)})
   return result
 
 def jaccard_similarity(set1, set2):
@@ -68,35 +96,36 @@ def jaccard_similarity(set1, set2):
     union = len(set1.union(set2))
     return intersection / union if union != 0 else 0 
 
+def send_notification_email(receiver_email, found_item_url):
+    # Email content
+    subject = "Found an item you lost"
+    body = f"We found an item similar to your description! Please click <a href='{found_item_url}'>here</a> to see the details of the found item and to claim it."
+    sender_email = "lostnfound.noreply@gmail.comjsspshsr.mit@gmail.com"
+    sender_pass = "MailNotification"
+    # Setup the email message
+    message = MIMEMultipart()
+    message["From"] = sender_email  # Your email address
+    message["To"] = receiver_email
+    message["Subject"] = subject
+
+    # Attach HTML content
+    message.attach(MIMEText(body, "html"))
+    context = ssl.create_default_context()
+    # Establish a connection to the SMTP server
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        #server.starttls()  # Start TLS encryption
+        server.login(sender_email, sender_pass)
+        server.send_message(message)
+
 #### Cleaning and initialising the Database of found items. Also adding the vector embeddings ###
 ### Will be later replaced by calls to an actual database ###
 
-# database = [
-#     {'ItemID': 1, 'Description': "Found a red wallet in the hostel area"},
-#     {'ItemID': 2, 'Description': "Found black phone near the park"},
-#     {'ItemID': 3, 'Description': "Found keys in the hostel area"},
-#     {'ItemID': 4, 'Description': "One Red & Blue Colour Pendrive (SANDISK) found in AB-03"},
-#     {'ItemID': 5, 'Description': "Ten Rupees foind in AB-03"},
-#     {'ItemID': 6, 'Description': "One Blue & Black Colour Plastic Water Bottle (Stryder H2o) found in Kyzeel Hostel"},
-#     {'ItemID': 7, 'Description': "Found a maruti suzuki car key near Amul Store"},
-#     {'ItemID': 8, 'Description': "Found a black wallet next to Amul Store. It has some cash and some cards."},
-#     {'ItemID': 9, 'Description': "(seven) keys were found from Sports Complex Cricket Ground near Mango tree"},
-#     {'ItemID': 10, 'Description': "(10) Keys were found behind AB-1 Two degree cafe"},
-#     {'ItemID': 11, 'Description': "Found one Black Colour Steel Water Bottle (IIT LOGO) in AB-03"},
-#     {'ItemID': 12, 'Description': "Found One Grey Colour Measuring Tape 30m (Freemans) in AB-07"},
-#     {'ItemID': 13, 'Description': "One Black & Gold Colour Chain in Aibaan hostel"},
-#     {'ItemID': 14, 'Description': "One Black & Red Colour Earphone (Costar) found in hiqom"},
-#     {'ItemID': 15, 'Description': "One Silver Colour Steel Water Bottle (From 29 Seater Bus) at Gate 1"},
-#     {'ItemID': 16, 'Description': "One Grey Colour USB-C Fusion Max-6 (ALOGIC) found in AB-05"},
-#     {'ItemID': 17, 'Description': "Found one Black Colour Cycle Number Lock at gate 1"},
-#     {'ItemID': 18, 'Description': "One Silver Colour Chain With Krishna Locket in Aibaan hostel."}
-# ]
 database = fetch_items_from_database()
 # print(database)
 ### USING ANALYTICAL METHODS ###
-
 ### Taking User Query and Pre-processing it ###
 user_query = input()
+id = findID(user_query)
 query_words = word_tokenize(user_query)
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
@@ -108,7 +137,7 @@ minThresh = 0.1
 num_threads = 2
 
 result = []
-sub_database_size = len(database)//num_threads
+sub_database_size = max(len(database)%num_threads,len(database)//num_threads)
 sub_databases = [database[i:i + sub_database_size] for i in range(0, len(database), sub_database_size)]
 
 with ThreadPoolExecutor(max_workers=num_threads) as executor:
@@ -116,11 +145,12 @@ with ThreadPoolExecutor(max_workers=num_threads) as executor:
     for sub_result in sub_results:
         result.extend(sub_result)
 
-result.sort(key=lambda x: x['Score'], reverse=True)
 if (len(result) != 0):
-   print(result)
+    for email, des, score in result:
+        send_notification_email(email, f"http://lostnfound.iitgn.ac.in:5000/details/{id}")
     # for item_id, description, similarity_score in result :
     #     print(f"Item ID: {item_id}, Description: {description}, Jaccard Similarity Score: {similarity_score}\n")
+    print(0)
 else:
     #print("No matching items found. Please try again later.")
-   print(result)
+   print(-1)

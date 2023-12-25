@@ -32,10 +32,11 @@
 </head>
 <body>
     <h2>Enter Description of Lost Item</h2>
-    <form method="POST" action="/lost"> <!-- Updated action to point to '/lost' -->
-        <textarea name="description" placeholder="Enter description (up to 1000 words)"></textarea><br>
+    <form id="lostForm" method="POST" action="/lost">
+        <textarea id="description" name="description" placeholder="Enter description (up to 1000 words)"></textarea><br>
         <button type="submit" class="search-btn">Search</button>
     </form>
+    
 
     <!-- Display search results -->
     {% if results %}
@@ -51,6 +52,12 @@
     {% else %}
         <p>No results found.</p>
     {% endif %}
-
+    {% if desc %}
+    <form id="searchForm" method="POST" action="/notify/{{ desc }}">
+        <p>No satisfying Results found? Want to get notified when a similar item is found? Please submit your Email ID.</p>
+        <input type="text" id="email" name="email" placeholder="Enter Email ID"><br><br>
+        <button type="submit" class="search-btn">Submit</button>
+    </form>
+    {% endif %}
 </body>
 </html>

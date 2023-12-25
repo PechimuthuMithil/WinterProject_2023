@@ -36,6 +36,20 @@ def create_items(conn):
         cursor.execute(create_table_query)
     conn.commit()
 
+def create_lost(conn):
+    # SQL query to create a table if it doesn't exist
+    create_table_query = '''
+        CREATE TABLE IF NOT EXISTS lost (
+            liid SERIAL PRIMARY KEY,
+            ides VARCHAR(1000),
+            uemail VARCHAR(100)
+        );
+    '''
+    # Execute the query
+    with conn.cursor() as cursor:
+        cursor.execute(create_table_query)
+    conn.commit()
+
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -49,6 +63,10 @@ conn = psycopg2.connect(
     host='localhost',
     port=5432
 )
+create_items(conn)
+create_users(conn)
+create_lost(conn)
+
 print("DONE!")
 print("<<<<<<< Starting the Server >>>>>\n")
 try:
