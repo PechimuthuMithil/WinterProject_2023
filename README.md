@@ -10,8 +10,12 @@ This repository contains the implementation of  a Lost and Found webpage and mor
 -- Shreesh Agarwal  
 
 ## Structure of the Website
-![Website_flow](https://github.com/PechimuthuMithil/WinterProject_2023/assets/119656326/fafd3ebf-a111-463a-8030-93e8da596a92)
+![Website_structure](https://github.com/PechimuthuMithil/WinterProject_2023/assets/119656326/5304190e-37ed-44e3-ac62-3e9838778647)
 
+## Features of the Website
+1) Description based data-base searching.  
+2) Email notifications of found items to appropriate users.
+ 
 ## Search algorithm  
 Current methods used:
 1) Searching the database of found items using `Jaccard Similarity`. The source code for this can be found in JaccardRanker.py. This ranker is also optimized by using multiple threads of execution to search through the database.
