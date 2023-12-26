@@ -100,7 +100,7 @@ def send_notification_email(receiver_email, found_item_url):
     # Email content
     subject = "Found an item you lost"
     body = f"We found an item similar to your description! Please click <a href='{found_item_url}'>here</a> to see the details of the found item and to claim it."
-    sender_email = "lostnfound.noreply@gmail.comjsspshsr.mit@gmail.com"
+    sender_email = "lostnfound.noreply@gmail.com"
     sender_pass = "MailNotification"
     # Setup the email message
     message = MIMEMultipart()
