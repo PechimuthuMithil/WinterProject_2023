@@ -5,7 +5,7 @@ This repository contains the implementation of  a Lost and Found webpage and mor
 [![My Skills](https://skillicons.dev/icons?i=flask,html,css,py,vscode,git,postgres)](https://skillicons.dev)  
 
 ## Contributors
-- Mithil Pechimuthu [Linkedin](www.linkedin.com/in/mithil-pechimuthu-82830525a) | [Gmail](pechimuthumithil@iitgn.ac.in)
+- Mithil Pechimuthu [Linkedin](https://www.linkedin.com/in/mithil-pechimuthu-82830525a) | [Gmail](mailto:pechimuthumithil@iitgn.ac.in)
 
 ## Structure of the Website
 ![Website_structure](https://github.com/PechimuthuMithil/WinterProject_2023/assets/119656326/5304190e-37ed-44e3-ac62-3e9838778647)
